@@ -34,3 +34,5 @@ speech/recording2\.mp3
 speech/recording3\.mp3
 
 speech/data/
+
+*.wav
