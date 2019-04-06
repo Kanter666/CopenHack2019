@@ -35,4 +35,8 @@ speech/recording3\.mp3
 
 speech/data/
 
+posture_detection/
+
+
+
 *.wav
