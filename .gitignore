@@ -21,3 +21,16 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+
+speech/\.idea/
+
+speech/example\.py
+
+speech/recording1\.mp3
+
+speech/recording2\.mp3
+
+speech/recording3\.mp3
+
+speech/data/
