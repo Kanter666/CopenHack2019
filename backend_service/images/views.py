@@ -3,15 +3,37 @@ from django.shortcuts import render
 # Create your views here.
 from django.shortcuts import render
 from rest_framework import status
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, schema
 from rest_framework.request import Request
 from rest_framework.response import Response
+from django.http import JsonResponse
 import requests
 import json
+import random
+from images.schema import custom_schema
 
-@api_view(["GET"])
-def get_image(request: Request):
-    return Response("Hello there", status=status.HTTP_200_OK)
+
+@api_view(["GET", "POST"])
+@schema(custom_schema)
+def post_image(request: Request):
+    i = random.randint(-1, 1)
+    data = {
+        'slouch': i > 0,
+        'smile': i < 0,
+        'emotion': "something",
+        'focus': i == 0
+    }
+    return Response(data, status=status.HTTP_200_OK)
+
+
+@api_view(["GET", "POST"])
+@schema(custom_schema)
+def post_initial_image(request: Request):
+    data = {
+
+    }
+    return Response(data, status=status.HTTP_200_OK)
+
 
 def get_face_detection_results(request):
     subscription_key = 'b4e06165df1a451f8ae7ee05a4d6a314'

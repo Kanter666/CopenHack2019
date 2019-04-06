@@ -1,8 +1,9 @@
 
 from django.urls import path
-from .views import get_image
+from .views import post_image,post_initial_image
 
 
 urlpatterns = [
-    path('test/', get_image, name='')
+    path('snapshot/', post_image, name=''),
+    path('initialSnapshot/', post_initial_image, name='')
 ]
