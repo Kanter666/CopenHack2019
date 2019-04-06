@@ -25,7 +25,7 @@ SECRET_KEY = 'ij7(4#!h2vtk@9b7ueefk9&zpunx8#k)s1c$ww#-8krp405r+u'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['demo-interviewapi.herokuapp.com']
 
 
 # Application definition
