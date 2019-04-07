@@ -25,7 +25,7 @@ SECRET_KEY = 'ij7(4#!h2vtk@9b7ueefk9&zpunx8#k)s1c$ww#-8krp405r+u'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [ 'http://localhost:3000', '127.0.0.1', 'localhost']
 
 
 # Application definition
@@ -54,7 +54,13 @@ MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
 ]
 CORS_ORIGIN_ALLOW_ALL = True
-
+CORS_ALLOW_CREDENTIALS = True
+CORS_ORIGIN_WHITELIST = (
+    'http://localhost:3000',
+)
+CORS_ORIGIN_REGEX_WHITELIST = (
+    'http://localhost:3000',
+)
 CORS_ALLOW_HEADERS = (
     'accept',
     'accept-encoding',
