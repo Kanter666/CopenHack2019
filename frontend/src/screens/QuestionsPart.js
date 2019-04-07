@@ -39,9 +39,6 @@ class QuestionsPart extends React.Component {
 
   openNotification = message => {
     this.setNotification(message);
-    interval = setTimeout(() => {
-      this.setNotification && this.setNotification('');
-    }, 2500);
   };
 
   handleNotification = data => {
@@ -78,12 +75,24 @@ class QuestionsPart extends React.Component {
         />
         <Camera takeSnapshot={this.handleSnapshot} recorder={setParams} />
         <Snackbar
+          style={{
+            fontSize: 16,
+          }}
           anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
           open={!!notification}
           ContentProps={{
             'aria-describedby': 'init-snapshot',
           }}
-          message={<span id="init-snapshot">{notification}</span>}
+          message={
+            <span
+              style={{
+                fontSize: 24,
+              }}
+              id="init-snapshot"
+            >
+              {notification}
+            </span>
+          }
         />
       </>
     );
