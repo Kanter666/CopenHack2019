@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import audioRecorder from '../services/audioRecorder';
+import videoRecorder from '../services/videoRecorder';
 
 const styles = {
-  cameraContainer: {},
+  cameraContainer: { width: '100%' },
   videoContainer: {
     display: 'flex',
     flexDirection: 'column',
@@ -19,6 +20,9 @@ const styles = {
     alignItems: 'center',
     flex: 12,
   },
+  canvas: {
+    width: '100%',
+  },
 };
 
 class Camera extends Component {
@@ -31,6 +35,7 @@ class Camera extends Component {
     this.canvas = React.createRef();
     this.currentImage = null;
     this.snapshotInterval = null;
+    this.videoRecord = null;
   }
   componentDidMount() {
     this.useMedia();
@@ -63,12 +68,18 @@ class Camera extends Component {
       //   // this.audioRef.current.src = url;
     });
     this.handleVideoInput(stream);
+
     // this.handleAudioInput(stream);
   };
 
-  handleVideoInput = stream => {
+  handleVideoInput = async stream => {
     const video = this.videoRef.current;
     video.srcObject = stream;
+    const { recorder } = this.props;
+    if (recorder) {
+      const blob = await videoRecorder(stream);
+      recorder({ blob: blob });
+    }
   };
 
   handleAudioInput = stream => {
@@ -108,11 +119,10 @@ class Camera extends Component {
             muted
             style={styles.video}
             ref={this.videoRef}
-            width="0"
-            height="0"
+            width="45%"
             autoPlay
           />
-          <canvas ref={this.canvas} width="620" height="480" />
+          <canvas hidden ref={this.canvas} width="640" height="480" />
         </div>
         <div />
       </div>

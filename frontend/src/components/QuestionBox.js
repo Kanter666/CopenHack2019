@@ -5,9 +5,8 @@ import { Title } from './Title';
 
 const QUESTION_TIME = 10;
 
-export function QuestionBox() {
+export function QuestionBox(props) {
   const [completed, setCompleted] = React.useState(0);
-  const [questionIndex, setQuestionIndex] = React.useState(0);
   const secondPart = 10;
 
   function progress() {
@@ -16,7 +15,7 @@ export function QuestionBox() {
       if (value < 100) {
         return value + velocity;
       }
-      setQuestionIndex(index => (index < 10 ? index + 1 : 0));
+      props.navigate('Feedback');
       return -15;
     });
   }
@@ -29,7 +28,7 @@ export function QuestionBox() {
   }, []);
 
   return (
-    <Title text={questionData[questionIndex]}>
+    <Title text={questionData[props.params.questionIndex]}>
       <LinearProgress
         variant="buffer"
         color="secondary"

@@ -22,7 +22,7 @@ function Calibration(props) {
         onClick={() => {
           sendCorrectSnapshot(snapshot);
           setOpen(true);
-          setTimeout(() => props.setRoute('QuestionsPart'), 1000);
+          setTimeout(() => props.navigate('QuestionsPart'), 1000);
         }}
         style={buttonStyle}
       >
