@@ -17,7 +17,20 @@ const styles = theme => ({
   table: {},
 });
 
-function FeedbackTable(props) {
+function Row({ preKey, value }) {
+  return (
+    <TableRow key={preKey}>
+      <TableCell component="th" scope="row" style={{ color: '#000' }}>
+        {preKey}
+      </TableCell>
+      <TableCell align="right" style={{ color: '#000' }}>
+        {value}
+      </TableCell>
+    </TableRow>
+  );
+}
+
+function SoundTable(props) {
   const { classes, rows } = props;
   console.log(rows);
   return (
@@ -25,29 +38,22 @@ function FeedbackTable(props) {
       <Table className={classes.table}>
         <TableHead>
           <TableRow>
-            <TableCell>Time</TableCell>
-            <TableCell align="right">Description</TableCell>
+            <TableCell />
+            <TableCell align="right" />
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map(row => (
-            <TableRow key={row.time}>
-              <TableCell component="th" scope="row" style={{ color: '#000' }}>
-                {row.time}
-              </TableCell>
-              <TableCell align="right" style={{ color: '#000' }}>
-                {row.description}
-              </TableCell>
-            </TableRow>
-          ))}
+          <Row preKey="Total time:" value="15.32" />
+          <Row preKey="Speaking percentage:" value="0.833" />
+          <Row preKey="Words per minute:" value="103.7" />
         </TableBody>
       </Table>
     </Paper>
   );
 }
 
-FeedbackTable.propTypes = {
+SoundTable.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(FeedbackTable);
+export default withStyles(styles)(SoundTable);

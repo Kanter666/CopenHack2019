@@ -22,8 +22,11 @@ class QuestionsPart extends React.Component {
   }
 
   setNotification = notification => {
+    this.setState({ notification });
+    if (!notification) {
+      return;
+    }
     this.props.setParams(state => {
-      console.log(state);
       const reversedIssues = [...state.issues].reverse();
       const [issue, ...restIssues] = reversedIssues;
       const newIssue = { ...issue, [state.currentSecond]: notification };
@@ -32,15 +35,10 @@ class QuestionsPart extends React.Component {
         issues: [newIssue, ...restIssues].reverse(),
       };
     });
-    console.log(this.props.params.issues);
-    this.setState({ notification });
   };
 
   openNotification = message => {
     this.setNotification(message);
-    interval = setTimeout(() => {
-      this.setNotification && this.setNotification('');
-    }, 2500);
   };
 
   handleNotification = data => {
@@ -77,12 +75,24 @@ class QuestionsPart extends React.Component {
         />
         <Camera takeSnapshot={this.handleSnapshot} recorder={setParams} />
         <Snackbar
+          style={{
+            fontSize: 16,
+          }}
           anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
           open={!!notification}
           ContentProps={{
             'aria-describedby': 'init-snapshot',
           }}
-          message={<span id="init-snapshot">{notification}</span>}
+          message={
+            <span
+              style={{
+                fontSize: 24,
+              }}
+              id="init-snapshot"
+            >
+              {notification}
+            </span>
+          }
         />
       </>
     );
