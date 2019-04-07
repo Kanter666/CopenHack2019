@@ -1,6 +1,6 @@
 import Axios from 'axios';
 
-const base = 'http://a96b8f67.ngrok.io/api/';
+const base = 'http://127.0.0.1:8000/api/';
 const mockData = () => ({
   data: {
     smile: Math.random() > 0.5,
