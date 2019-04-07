@@ -25,6 +25,7 @@ const styles = {
   },
 };
 
+let timer = null;
 class Camera extends Component {
   constructor(props) {
     super(props);
@@ -45,6 +46,7 @@ class Camera extends Component {
 
   componentWillUnmount() {
     clearInterval(this.snapshotInterval);
+    clearInterval(timer);
   }
 
   collectData() {
@@ -77,8 +79,15 @@ class Camera extends Component {
     video.srcObject = stream;
     const { recorder } = this.props;
     if (recorder) {
+      recorder(state => ({ ...state, currentSecond: 0 }));
+      timer = setInterval(() => {
+        recorder(state => ({
+          ...state,
+          currentSecond: state.currentSecond + 1,
+        }));
+      }, 1000);
       const blob = await videoRecorder(stream);
-      recorder({ blob: blob });
+      recorder(state => ({ ...state, blob: blob }));
     }
   };
 

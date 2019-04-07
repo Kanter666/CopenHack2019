@@ -10,11 +10,29 @@ class QuestionsPart extends React.Component {
     notification: '',
   };
 
+  componentDidMount() {
+    this.props.setParams(state => ({
+      ...state,
+      issues: [...state.issues, {}],
+    }));
+  }
+
   componentWillUnmount() {
     clearTimeout(interval);
   }
 
   setNotification = notification => {
+    this.props.setParams(state => {
+      console.log(state);
+      const reversedIssues = [...state.issues].reverse();
+      const [issue, ...restIssues] = reversedIssues;
+      const newIssue = { ...issue, [state.currentSecond]: notification };
+      return {
+        ...state,
+        issues: [newIssue, ...restIssues].reverse(),
+      };
+    });
+    console.log(this.props.params.issues);
     this.setState({ notification });
   };
 
@@ -58,10 +76,8 @@ class QuestionsPart extends React.Component {
           setParams={setParams}
         />
         <Camera takeSnapshot={this.handleSnapshot} recorder={setParams} />
-        <input type="file" accept="video/*;capture=camcorder" />
-
         <Snackbar
-          anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+          anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
           open={!!notification}
           ContentProps={{
             'aria-describedby': 'init-snapshot',

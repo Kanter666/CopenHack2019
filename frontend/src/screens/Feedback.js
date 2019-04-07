@@ -4,16 +4,6 @@ import questionData from '../services/questionData';
 import FeedbackTable from '../components/FeedbackTable';
 import { BlueButton } from '../components/GradientButton';
 
-function createData(time, description) {
-  return { time, description };
-}
-
-const rows = [
-  createData('00:02', 'dsadsadasad'),
-  createData('00:07', 'dssdadsadsdddssds'),
-  createData('00:011', 'aaaaadsadsadsadas'),
-];
-
 function ButtonWrapper(props) {
   const { text, ...rest } = props;
   return (
@@ -26,10 +16,17 @@ function ButtonWrapper(props) {
 function Feedback(props) {
   const videoRef = React.useRef(null);
   const { navigate, params, setParams } = props;
+  const data = params.issues[params.issues.length - 1];
+  const rows = Object.entries(data)
+    .map(([key, description]) => ({
+      time: `00:${key}`,
+      description,
+    }))
+    .filter(el => el.description);
   if (params.blob) {
-    console.log(params.blob);
-    console.log(videoRef.current);
-    videoRef.current.src = URL.createObjectURL(params.blob);
+    setTimeout(() => {
+      videoRef.current.src = URL.createObjectURL(params.blob);
+    }, 500);
   }
   console.log('navigate Feedback');
   return (
@@ -71,6 +68,7 @@ function Feedback(props) {
           text={'Next Question'}
           onClick={() => {
             setParams(state => ({
+              ...state,
               questionIndex: state.questionIndex + 1,
             }));
             navigate('QuestionsPart');

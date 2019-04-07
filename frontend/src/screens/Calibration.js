@@ -36,7 +36,7 @@ function Calibration(props) {
         ContentProps={{
           'aria-describedby': 'init-snapshot',
         }}
-        message={<span id="init-snapshot">Poster saved successfuluy!</span>}
+        message={<span id="init-snapshot">Image saved successfully!</span>}
       />
     </>
   );

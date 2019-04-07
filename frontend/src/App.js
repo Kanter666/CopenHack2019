@@ -33,8 +33,12 @@ function setActive(route, navigate, params, setParams) {
 }
 
 function App() {
-  const [params, setParams] = React.useState({ questionIndex: 0 });
-  const [route, setRoute] = React.useState('QuestionsPart');
+  const [params, setParams] = React.useState({
+    questionIndex: 0,
+    currentSecond: 0,
+    issues: [],
+  });
+  const [route, setRoute] = React.useState('Calibration');
   function navigate(route) {
     setRoute(route);
   }
