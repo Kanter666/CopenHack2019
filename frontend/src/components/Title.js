@@ -9,7 +9,6 @@ const useStyles = makeStyles(theme => ({
     width: '100%',
     margin: 'auto',
     height: 100,
-    marginTop: 20,
     marginBottom: 20,
     paddingTop: 20,
     background: 'linear-gradient(65deg, #00A2B8 -25%, #00F9D2 100%);',

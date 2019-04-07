@@ -11,15 +11,15 @@ const mockData = () => ({
 });
 
 export async function sendSnapshot(snapshot) {
-  const { data } = await Axios.post(`${base}snapshot`, { data: snapshot });
-  return data;
-  // return new Promise(resolve => setTimeout(() => resolve(mockData()), 1500));
+  // const { data } = await Axios.post(`${base}snapshot`, { data: snapshot });
+  // return data;
+  return new Promise(resolve => setTimeout(() => resolve(mockData()), 3000));
 }
 
 export async function sendCorrectSnapshot(snapshot) {
-  const { data } = await Axios.post(`${base}initialSnapshot`, {
-    data: snapshot,
-  });
-  return data;
-  // return new Promise(resolve => setTimeout(() => resolve(mockData()), 1500));
+  // const { data } = await Axios.post(`${base}initialSnapshot`, {
+  //   data: snapshot,
+  // });
+  // return data;
+  return new Promise(resolve => setTimeout(() => resolve(mockData()), 1500));
 }

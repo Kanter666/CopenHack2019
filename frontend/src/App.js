@@ -41,7 +41,7 @@ function App() {
     currentSecond: 0,
     issues: [],
   });
-  const [route, setRoute] = React.useState('Calibration');
+  const [route, setRoute] = React.useState('Feedback');
   function navigate(route) {
     setRoute(route);
   }

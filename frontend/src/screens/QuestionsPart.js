@@ -22,8 +22,11 @@ class QuestionsPart extends React.Component {
   }
 
   setNotification = notification => {
+    this.setState({ notification });
+    if (!notification) {
+      return;
+    }
     this.props.setParams(state => {
-      console.log(state);
       const reversedIssues = [...state.issues].reverse();
       const [issue, ...restIssues] = reversedIssues;
       const newIssue = { ...issue, [state.currentSecond]: notification };
@@ -32,8 +35,6 @@ class QuestionsPart extends React.Component {
         issues: [newIssue, ...restIssues].reverse(),
       };
     });
-    console.log(this.props.params.issues);
-    this.setState({ notification });
   };
 
   openNotification = message => {
