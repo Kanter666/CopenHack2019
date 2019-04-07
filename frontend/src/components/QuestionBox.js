@@ -15,7 +15,7 @@ export function QuestionBox(props) {
       if (value < 100) {
         return value + velocity;
       }
-      props.navigate('Feedback');
+      props.navigate('Loading');
       return -15;
     });
   }

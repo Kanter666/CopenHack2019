@@ -1,6 +1,6 @@
 import Axios from 'axios';
 
-const base = 'https://demo-interviewapi.herokuapp.com/api/';
+const base = 'http://a96b8f67.ngrok.io/api/';
 const mockData = () => ({
   data: {
     smile: Math.random() > 0.5,
@@ -11,15 +11,15 @@ const mockData = () => ({
 });
 
 export async function sendSnapshot(snapshot) {
-  // const { data } = await Axios.post(`${base}snapshot`, { data: snapshot });
-  // return data;
-  return new Promise(resolve => setTimeout(() => resolve(mockData()), 1500));
+  const { data } = await Axios.post(`${base}snapshot`, { data: snapshot });
+  return data;
+  // return new Promise(resolve => setTimeout(() => resolve(mockData()), 1500));
 }
 
 export async function sendCorrectSnapshot(snapshot) {
-  // const { data } = await Axios.post(`${base}initialSnapshot`, {
-  //   data: snapshot,
-  // });
-  // return data;
-  return new Promise(resolve => setTimeout(() => resolve(mockData()), 1500));
+  const { data } = await Axios.post(`${base}initialSnapshot`, {
+    data: snapshot,
+  });
+  return data;
+  // return new Promise(resolve => setTimeout(() => resolve(mockData()), 1500));
 }

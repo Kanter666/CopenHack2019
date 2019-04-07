@@ -42,6 +42,7 @@ function Feedback(props) {
         <div style={{ flex: 6 }}>
           <video
             width="95%"
+            height={480}
             ref={videoRef}
             style={{ marginRight: '5%' }}
             autoPlay

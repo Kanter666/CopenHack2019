@@ -4,6 +4,7 @@ import { blue } from '@material-ui/core/colors';
 import Calibration from './screens/Calibration';
 import QuestionsPart from './screens/QuestionsPart';
 import Feedback from './screens/Feedback';
+import Loading from './screens/Loading';
 
 const theme = createMuiTheme({
   palette: {
@@ -25,6 +26,8 @@ function setActive(route, navigate, params, setParams) {
       return <Calibration {...props} />;
     case 'QuestionsPart':
       return <QuestionsPart {...props} />;
+    case 'Loading':
+      return <Loading {...props} />;
     case 'Feedback':
       return <Feedback {...props} />;
     default:

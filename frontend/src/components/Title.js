@@ -12,7 +12,7 @@ const useStyles = makeStyles(theme => ({
     marginTop: 20,
     marginBottom: 20,
     paddingTop: 20,
-    background: 'linear-gradient(45deg, #2196F3 30%, #21CBF3 90%)',
+    background: 'linear-gradient(65deg, #00A2B8 -25%, #00F9D2 100%);',
     boxShadow: '0 3px 5px 2px rgba(33, 203, 243, .3)',
   },
 }));
