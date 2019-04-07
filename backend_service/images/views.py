@@ -29,20 +29,37 @@ def post_image(request: Request):
     response = JsonResponse(
        data, status=status.HTTP_200_OK
     )
-    response["Access-Control-Allow-Origin"] = "*"
-    response["Access-Control-Allow-Methods"] = "GET, OPTIONS"
-    response["Access-Control-Max-Age"] = "1000"
-    response["Access-Control-Allow-Headers"] = "X-Requested-With, Content-Type"
+    response["Access-Control-Allow-Origin"] = 'http://localhost:3000'
+
     return Response(data, status=status.HTTP_200_OK)
+
+
+@api_view(["GET", "POST"])
+#@schema(custom_schema)
+def post_image2(request:Request):
+    print(request.data)
+    data2 = {
+        'slouch': True,  # comes from posture module
+        'smile': True,
+        'emotion': "positive",
+        'focus': True  # comes from face rectangle
+    }
+
+    response = JsonResponse(
+       data2, status=status.HTTP_200_OK
+    )
+    response["Access-Control-Allow-Origin"] = 'http://localhost:3000'
+
+    return Response(data2, status=status.HTTP_200_OK)
 
 
 @api_view(["GET", "POST"])
 @schema(custom_schema)
 def post_initial_image(request: Request):
-    data = {
+    data1 = {
 
     }
-    return Response(data, status=status.HTTP_200_OK)
+    return Response(data1, status=status.HTTP_200_OK)
 
 
 def get_face_detection_results(request):
