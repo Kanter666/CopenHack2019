@@ -1,6 +1,6 @@
 {
   "javascript.preferences.importModuleSpecifier": "non-relative",
-  "javascript.implicitProjectConfig.checkJs": true,
+  "javascript.implicitProjectConfig.checkJs": false,
   "editor.formatOnSave": false,
   "[javascriptreact]": {
       "editor.formatOnSave": true

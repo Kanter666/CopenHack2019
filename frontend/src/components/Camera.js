@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
+import audioRecorder from '../services/audioRecorder';
+import videoRecorder from '../services/videoRecorder';
 
 const styles = {
-  cameraContainer: {},
+  cameraContainer: { width: '100%' },
   videoContainer: {
     display: 'flex',
+    flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
     width: '100%',
@@ -17,8 +20,12 @@ const styles = {
     alignItems: 'center',
     flex: 12,
   },
+  canvas: {
+    width: '100%',
+  },
 };
 
+let timer = null;
 class Camera extends Component {
   constructor(props) {
     super(props);
@@ -28,6 +35,8 @@ class Camera extends Component {
     this.audioChunks = [];
     this.canvas = React.createRef();
     this.currentImage = null;
+    this.snapshotInterval = null;
+    this.videoRecord = null;
   }
   componentDidMount() {
     this.useMedia();
@@ -35,12 +44,17 @@ class Camera extends Component {
     this.saveVideoToCanvas();
   }
 
+  componentWillUnmount() {
+    clearInterval(this.snapshotInterval);
+    clearInterval(timer);
+  }
+
   collectData() {
-    setInterval(() => {
+    this.snapshotInterval = setInterval(() => {
       this.currentImage = convertCanvasToImage(this.canvas.current);
-      console.log(this.currentImage.src);
+      this.props.takeSnapshot(this.currentImage);
       this.audioChunks = [];
-    }, 10000);
+    }, 1000);
   }
 
   useMedia = () => {
@@ -52,13 +66,29 @@ class Camera extends Component {
   };
 
   handleInputs = stream => {
+    audioRecorder(stream, 10000).then(url => {
+      //   // this.audioRef.current.src = url;
+    });
     this.handleVideoInput(stream);
-    this.handleAudioInput(stream);
+
+    // this.handleAudioInput(stream);
   };
 
-  handleVideoInput = stream => {
+  handleVideoInput = async stream => {
     const video = this.videoRef.current;
     video.srcObject = stream;
+    const { recorder } = this.props;
+    if (recorder) {
+      recorder(state => ({ ...state, currentSecond: 0 }));
+      timer = setInterval(() => {
+        recorder(state => ({
+          ...state,
+          currentSecond: state.currentSecond + 1,
+        }));
+      }, 1000);
+      const blob = await videoRecorder(stream);
+      recorder(state => ({ ...state, blob: blob }));
+    }
   };
 
   handleAudioInput = stream => {
@@ -75,7 +105,6 @@ class Camera extends Component {
   saveVideoToCanvas = () => {
     const video = this.videoRef.current;
     const ctx = this.canvas.current.getContext('2d');
-    console.log(ctx);
     video.addEventListener(
       'play',
       function() {
@@ -96,27 +125,15 @@ class Camera extends Component {
       <div style={styles.cameraContainer}>
         <div style={styles.videoContainer}>
           <video
-            hidden
+            muted
             style={styles.video}
-            id="video"
             ref={this.videoRef}
-            width="320"
-            height="240"
+            width="45%"
             autoPlay
           />
-          <canvas id="canvas" ref={this.canvas} width="620" height="480" />
+          <canvas hidden ref={this.canvas} width="640" height="480" />
         </div>
-        <div>
-          <input
-            type="file"
-            ref={this.recorderRef}
-            hidden
-            accept="audio/*"
-            capture
-            id="recorder"
-          />
-          <input type="file" hidden accept="image/*;capture=camera" />
-        </div>
+        <div />
       </div>
     );
   }
@@ -125,8 +142,7 @@ class Camera extends Component {
 export default Camera;
 
 function convertCanvasToImage(canvas) {
-  var image = new Image();
+  const image = new Image();
   image.src = canvas.toDataURL('image/jpeg', 0.3);
-
-  return image;
+  return image.src;
 }

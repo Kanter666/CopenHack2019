@@ -1,25 +1,65 @@
-import React, { Component } from 'react';
-import Camera from './components/Camera';
-import { QuestionBox } from './components/QuestionBox';
+import React from 'react';
 import { createMuiTheme, MuiThemeProvider } from '@material-ui/core';
 import { blue } from '@material-ui/core/colors';
+import Calibration from './screens/Calibration';
+import QuestionsPart from './screens/QuestionsPart';
+import Feedback from './screens/Feedback';
+import Loading from './screens/Loading';
 
 const theme = createMuiTheme({
   palette: {
-    primary: { main: blue[500] }, // Purple and green play nicely together.
-    secondary: { main: '#11cb5f' }, // This is just green.A700 as hex.
+    text: {
+      primary: '#fff',
+    },
+    primary: { main: blue[500], text: '#fff' }, // Purple and green play nicely together.
+    secondary: { main: '#00EE00' }, // This is just green.A700 as hex.
+    textPrimary: '#fff',
   },
   typography: { useNextVariants: true },
 });
-class App extends Component {
-  render() {
-    return (
-      <MuiThemeProvider theme={theme}>
-        <QuestionBox />
-        <Camera />
-      </MuiThemeProvider>
-    );
+
+function setActive(route, navigate, params, setParams) {
+  const props = { navigate, params, setParams };
+
+  switch (route) {
+    case 'Calibration':
+      return <Calibration {...props} />;
+    case 'QuestionsPart':
+      return <QuestionsPart {...props} />;
+    case 'Loading':
+      return <Loading {...props} />;
+    case 'Feedback':
+      return <Feedback {...props} />;
+    default:
+      break;
   }
 }
 
+function App() {
+  const [params, setParams] = React.useState({
+    questionIndex: 0,
+    currentSecond: 0,
+    issues: [],
+  });
+  const [route, setRoute] = React.useState('Calibration');
+  function navigate(route) {
+    setRoute(route);
+  }
+
+  return (
+    <MuiThemeProvider theme={theme}>
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          textAlign: 'center',
+          alignItems: 'center',
+        }}
+      >
+        {setActive(route, navigate, params, setParams)}
+      </div>
+    </MuiThemeProvider>
+  );
+}
 export default App;
