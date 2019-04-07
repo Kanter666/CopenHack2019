@@ -30,19 +30,12 @@ class Pose():
         self.frame = frame
         self.frameCopy = frameCopy
         self.threshold = 0.1
-        MODE = "COCO"
 
-        if MODE is "COCO":
-            protoFile = "pose/coco/pose_deploy_linevec.prototxt"
-            weightsFile = "pose/coco/pose_iter_440000.caffemodel"
-            self.nPoints = 18
-            self.POSE_PAIRS = [ [1,0],[1,2],[1,5],[2,3],[3,4],[5,6],[6,7],[1,8],[8,9],[9,10],[1,11],[11,12],[12,13],[0,14],[0,15],[14,16],[15,17]]
+        protoFile = "pose/coco/pose_deploy_linevec.prototxt"
+        weightsFile = "pose/coco/pose_iter_440000.caffemodel"
+        self.nPoints = 18
+        self.POSE_PAIRS = [ [1,0],[1,2],[1,5],[2,3],[3,4],[5,6],[6,7],[1,8],[8,9],[9,10],[1,11],[11,12],[12,13],[0,14],[0,15],[14,16],[15,17]]
 
-        elif MODE is "MPI" :
-            protoFile = "pose/mpi/pose_deploy_linevec_faster_4_stages.prototxt"
-            weightsFile = "pose/mpi/pose_iter_160000.caffemodel"
-            self.nPoints = 15
-            self.POSE_PAIRS = [[0,1], [1,2], [2,3], [3,4], [1,5], [5,6], [6,7], [1,14], [14,8], [8,9], [9,10], [14,11], [11,12], [12,13] ]
 
         self.net = cv2.dnn.readNetFromCaffe(protoFile, weightsFile)
 
@@ -56,7 +49,6 @@ class Pose():
         self.net.setInput(self.inpBlob)
 
         self.output = self.net.forward()
-        #print("time taken by network : {:.3f}".format(time.time() - t))
 
         self.H = self.output.shape[2]
         self.W = self.output.shape[3]
@@ -83,11 +75,10 @@ class Pose():
                 self.points.append((int(x), int(y)))
             else :
                 self.points.append(None)
-        #print(self.points) 
+
         self.dist = math.sqrt((self.points[1][0] - self.points[5][0])**2 + (self.points[1][1] - self.points[5][1])**2) 
         self.slope = (self.points[1][1] - self.points[5][1]) / (self.points[1][0] - self.points[5][0])
-        #print("slope", self.slope)
-        #print("distance", self.dist)
+
         # Compare with baseline
 
         # Draw Skeleton
@@ -100,32 +91,31 @@ class Pose():
                 cv2.circle(self.frame, self.points[partA], 8, (0, 0, 255), thickness=-1, lineType=cv2.FILLED)
 
 
-        #cv2.imshow('Output-Keypoints', self.frameCopy)
-        #cv2.imshow('Output-Skeleton', self.frame)
-
-
-        #cv2.imwrite('Output-Keypoints.jpg', self.frameCopy)
-        #cv2.imwrite('Output-Skeleton.jpg', self.frame)
-
-        #print("Total time taken : {:.3f}".format(time.time() - t))
-
 def simulate():
     frame = cv2.imread("imgfile.jpeg")
+    print("Received Calibration Image")
     frameCopy = np.copy(frame)
     frameWidth = frame.shape[1]
     frameHeight = frame.shape[0]
     pose = Pose(frame, frameCopy, frameWidth, frameHeight, 0.1)
+    print("Setting baseline parameters")
     distance_1 = pose.dist
     frame = frame = cv2.imread("imgfile_1.jpeg")
+    print("Received Input Data") 
     frameCopy = np.copy(frame)
     frameWidth = frame.shape[1]
     frameHeight = frame.shape[0]
-    pose = Pose(frame, frameCopy, frameWidth, frameHeight, 0.1)
+    print("Comparing Images")  
+    pose = Pose(frame, frameCopy, frameWidth, frameHeight, 0.1)   
     distance_2 = pose.dist
     distance = distance_2 - distance_1
     if distance <= 0:
-        print("DONT SLOUCH")
+        print("***DO NOT SLOUCH***")
+        print("Sending Data")
+    else:
+        print("Not Slouching")
     return
+
 
 if __name__ == "__main__":
     img = ImageSave()
