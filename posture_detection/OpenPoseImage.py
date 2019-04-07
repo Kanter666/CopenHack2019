@@ -110,7 +110,7 @@ def simulate():
     distance_2 = pose.dist
     distance = distance_2 - distance_1
     if distance <= 0:
-        print("***DO NOT SLOUCH***")
+        print("***Stop Slouching***")
         print("Sending Data")
     else:
         print("Not Slouching")
