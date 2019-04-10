@@ -46,7 +46,7 @@ def speech_analysis(sound):
 
     # Creates an instance of a speech config with specified subscription key and service region.
     # Replace with your own subscription key and service region (e.g., "westus").
-    speech_key, service_region = "5555c10ce9da491c9c5ad3e157f6bed7", "westus"
+    speech_key, service_region = "", "westus"
     speech_config = speechsdk.SpeechConfig(subscription=speech_key, region=service_region)
 
     sound.export("transcript.wav", format="wav")
